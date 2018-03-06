@@ -47,7 +47,7 @@ bool UDPSocket::Create(const char * const localip, int port)
     return true;
 }
 
-int UDPSocket::RecvFrom(void * buf, int size, sockaddr_in & addr)
+int UDPSocket::RecvFrom(void * buf, int size, sockaddr *addr)
 {
     struct sockaddr_in remoteAddr;
     socklen_t addlen = sizeof(remoteAddr);
@@ -61,13 +61,13 @@ int UDPSocket::RecvFrom(void * buf, int size, string & ip, int & port)
 {
     struct sockaddr_in addr;
 	memset(buf,0,size);
-	int n = RecvFrom((void *)buf, size,addr);
+	int n = RecvFrom((void *)buf, size,(struct sockaddr *)&addr);
     ip = inet_ntoa(addr.sin_addr);
     port  = ntohs(addr.sin_port);
     return n;
 }
 
-int UDPSocket::SendTo(void * buf, int size, const sockaddr_in & addr)
+int UDPSocket::SendTo(void * buf, int size, const sockaddr *addr)
 {
     int n = sendto(m_udpsocket,(char *)buf,size,0,(struct sockaddr *)&addr, sizeof(addr));  
     if (size > 0 && n < 0)  
@@ -85,7 +85,7 @@ int UDPSocket::SendTo(void * buf, int size, const char * ip, int port)
     remoteaddr.sin_addr.s_addr = ::inet_addr(ip);
     remoteaddr.sin_port = htons(port);
 
-    return SendTo(buf,size,remoteaddr);
+    return SendTo(buf,size,(struct sockaddr *)&remoteaddr);
 }
 void UDPSocket::Close()
 {

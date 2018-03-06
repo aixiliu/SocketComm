@@ -49,7 +49,7 @@ public:
        @note 
        \n<b>ALL</b>:  recvfrom()
 	 */	
-	int RecvFrom(void* buf, int size, sockaddr_in& addr);
+	int RecvFrom(void* buf, int size, sockaddr *addr);
 
 	/** 
 	 * @brief 
@@ -71,7 +71,7 @@ public:
        @note 
        \n<b>ALL</b>:  sendto()
 	 */	
-	int SendTo(void* buf, int size, const sockaddr_in& addr);
+	int SendTo(void* buf, int size, const sockaddr * addr);
 	void Close();
     int  GetFd()
     {
